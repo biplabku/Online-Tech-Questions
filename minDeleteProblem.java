@@ -2,6 +2,10 @@ import java.util.*;
 
 public class minDeleteProblem {
     // add digit 5 to make it the highest
+    // Microsoft online tech screen question - Add a digit 5 to a number to get the highest possible number
+    // 267 - 5267
+    // 0 - 50
+    // -1 - 15
     public int addNumber(int value) {
         int number = 0;
         boolean isNegative = value < 0? true:false;
