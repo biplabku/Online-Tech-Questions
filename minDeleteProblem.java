@@ -1,3 +1,4 @@
+import javax.print.attribute.IntegerSyntax;
 import java.util.*;
 
 public class minDeleteProblem {
@@ -39,7 +40,68 @@ public class minDeleteProblem {
         return list.get(0);
     }
 
+    // 1,2,3,4,5
+    // buckets = 3
+    public List<List<Integer>> getSumbuckets(int[] array, int number) {
+        List<List<Integer>> result  = new ArrayList<>();
+        int left = 0;
+        int right = array.length - 1;
+        List<Integer> input =  new ArrayList<>();
+        for(int i=0; i < array.length; i++) {
+            input.add(array[i]);
+        }
+        while(!input.isEmpty()) {
+            int sum = 0;
+            List<Integer> temp = new ArrayList<>();
+            while(sum != number) {
+                if(sum <= number) {
 
+                }
+            }
+        }
+        return result;
+    }
+
+    public List<Integer> convertToArrayList(int[] array) {
+        List<Integer> list = new ArrayList<>();
+        for(int i = 0; i < array.length;i++) {
+            list.add(array[i]);
+        }
+        return list;
+    }
+
+    // 2,3,6,7
+    // target = 7
+    public List<List<Integer>> combinationSum(int[] array, int target) {
+        Arrays.sort(array);
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> input = convertToArrayList(array);
+        doCombineSum(result, 0, input, new ArrayList<>(), target, 0);
+        return result;
+    }
+
+    public void doCombineSum(List<List<Integer>> result, int startIndex, List<Integer> list, List<Integer> temp, int target, int sum) {
+        if(startIndex == list.size() - 1)  {
+            return ;
+        }
+        for(int i = startIndex; i < list.size(); i++) {
+            if(i != 0 && list.get(i) == list.get(i - 1)) {
+                continue;
+            }
+            if(sum + list.get(i) == target) {
+                temp.add(list.get(i));
+                result.add(new ArrayList<>(temp));
+                temp.remove(temp.size() - 1);
+                break;
+            }else if(sum + list.get(i) < target) {
+                temp.add(list.get(i));
+                doCombineSum(result, startIndex, list, temp, target, sum + list.get(i)); // here we are basically backtracking the steps weh have taken if its not matching
+                temp.remove(temp.size() - 1);
+            }else{
+                break;
+            }
+        }
+    }
 
     // i = 2;
     // love = 2;
@@ -81,6 +143,30 @@ public class minDeleteProblem {
         return t;
     }
 
+    public List<List<Integer>> subsetSum(List<Integer> list, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        int index = 0;
+        for(int i = 0; i < list.size(); i++) {
+            result.add(combinationSum(list, new ArrayList<>(), target, 0, 0));
+        }
+        return result;
+    }
+
+    public List<Integer> combinationSum(List<Integer> list, List<Integer> result, int target, int start, int sum) {
+        if(start > list.size() - 1 || sum == target) {
+            return result;
+        }
+        if(sum < target) {
+            sum += list.get(start);
+            result.add(list.get(start));
+            return combinationSum(list, result, target, start + 1, sum);
+        }else {
+            sum -= list.get(start - 1);
+            result.remove(result.size() - 1);
+            return combinationSum(list, result, target, start + 2, sum);
+        }
+    }
+
 
     public int delteMinChars(String str) {
         return 1;
@@ -91,7 +177,13 @@ public class minDeleteProblem {
         String[] words = new String[] {"the", "day", "is", "sunny", "the", "the", "the",
                 "sunny", "is", "is"};
         int k = 4;
-        System.out.println(ds.addNumber(-1234));
+        int[] array = new int[]{2,3,5,7};
+        List<Integer> list = new ArrayList<>();
+        list.add(2);
+        list.add(3);
+        list.add(5);
+        list.add(7);
+        System.out.println(ds.combinationSum(array, 7));
 
     }
 }
