@@ -167,10 +167,37 @@ public class minDeleteProblem {
         }
     }
 
-
-    public int delteMinChars(String str) {
-        return 1;
+    // 1,2,3,4
+    // permutation.
+    public List<List<Integer>> doPermutations(int[] array) {
+        List<List<Integer>> result= new ArrayList<>();
+        permute(convertToArrayList(array), 0, array.length, result);
+        return result;
     }
+
+    public void permute(List<Integer> array, int start, int end, List<List<Integer>> result) {
+        if(start == array.size()) {
+            result.add(new ArrayList<>(array));
+            return ;
+        }
+        for(int i = start; i < array.size(); i++) {
+            swap(array, start, i);
+            permute(array, start+1, end, result);
+            swap(array, start, i);
+        }
+    }
+
+    public void swap(List<Integer> array, int left, int right) {
+        int temp = array.get(left);
+        array.set(left, array.get(right));
+        array.set(right, temp);
+    }
+
+
+
+
+
+
 
     public static void main(String[] args) {
         minDeleteProblem ds = new minDeleteProblem();
@@ -183,7 +210,7 @@ public class minDeleteProblem {
         list.add(3);
         list.add(5);
         list.add(7);
-        System.out.println(ds.combinationSum(array, 7));
+        System.out.println(ds.doPermutations(array));
 
     }
 }
