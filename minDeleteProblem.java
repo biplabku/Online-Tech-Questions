@@ -193,7 +193,49 @@ public class minDeleteProblem {
         array.set(right, temp);
     }
 
+    class freqNumber{
+        int number;
+        int numOfTimes;
 
+        public freqNumber(int num, int times) {
+            this.number = num;
+            this.numOfTimes = times;
+        }
+    }
+
+    public void mostFrequentNumber(int[] array) {
+        HashMap<Integer, Integer> hmap = new HashMap<>();
+        // Time complexity for below code - O(N);
+        for(int i = 0; i < array.length; i++) {
+            int val = array[i];
+            if(!hmap.containsKey(val)) {
+                hmap.put(val, 1);
+            }else {
+                hmap.put(val, hmap.get(val) + 1);
+            }
+        }
+
+        // O(logN)
+        PriorityQueue<freqNumber> frequency = new PriorityQueue<>(new Comparator<freqNumber>() {
+            @Override
+            public int compare(freqNumber f1, freqNumber f2) {
+                return f2.numOfTimes - f1.numOfTimes;
+            }
+        });
+
+        Iterator iter = hmap.entrySet().iterator();
+        while(iter.hasNext()) {
+            Map.Entry pair = (Map.Entry)iter.next();
+            int key = (int)pair.getKey();
+            int value = (int)pair.getValue();
+            frequency.add(new freqNumber(key, value));
+        }
+
+        while(!frequency.isEmpty()) {
+            freqNumber m = frequency.poll();
+            System.out.println(m.number + " " + m.numOfTimes);
+        }
+    }
 
 
 
@@ -204,13 +246,14 @@ public class minDeleteProblem {
         String[] words = new String[] {"the", "day", "is", "sunny", "the", "the", "the",
                 "sunny", "is", "is"};
         int k = 4;
-        int[] array = new int[]{2,3,5,7};
+        int[] array = new int[]{1,1,2,3,3,3,5,7,1};
         List<Integer> list = new ArrayList<>();
         list.add(2);
         list.add(3);
         list.add(5);
         list.add(7);
-        System.out.println(ds.doPermutations(array));
+
+        ds.mostFrequentNumber(array);
 
     }
 }
