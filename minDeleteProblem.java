@@ -244,32 +244,73 @@ public class minDeleteProblem {
         return dist;
     }
 
+    public boolean isSafe(int[][] grid, int x, int y) {
+        return (x >= 0 && y >= 0 && x < grid.length && y < grid[0].length );
+    }
 
-
-    public void getShortestPath(int[][] grid, int x, int y, int res, int dist) {
-        if(x > grid.length || y > grid[0].length || x < 0 || y < 0) {
-            return;
-        }
+    public int getShortestPath(int[][] grid, int x, int y, int res, int dist) {
         if(grid[x][y] == 9) {
             dist = Math.min(res, dist);
-            return ;
+            return dist;
         }
         int temp = grid[x][y];
         grid[x][y] = 1;
-        if(grid[x + 1][y] == 1) {
-            getShortestPath(grid, x + 1, y, res + 1, dist);
+        if(isSafe(grid, x + 1, y) && grid[x + 1][y] == 1) {
+            res += getShortestPath(grid, x + 1, y, res + 1, dist);
         }
-        if(grid[x][y + 1] == 1) {
-            getShortestPath(grid, x, y + 1, res + 1, dist);
+        if(isSafe(grid, x, y + 1) && grid[x][y + 1] == 1) {
+            res += getShortestPath(grid, x, y + 1, res + 1, dist);
         }
-        if(grid[x - 1][y] == 1) {
-            getShortestPath(grid, x - 1, y, res + 1, dist);
+        if(isSafe(grid, x - 1, y) && grid[x - 1][y] == 1) {
+            res += getShortestPath(grid, x - 1, y, res + 1, dist);
         }
-        if(grid[x][ y - 1] == 1) {
-            getShortestPath(grid, x, y - 1, res + 1, dist);
+        if(isSafe(grid, x, y - 1) && grid[x][ y - 1] == 1) {
+            res += getShortestPath(grid, x, y - 1, res + 1, dist);
         }
         grid[x][y] = temp;
+        return res;
+    }
 
+    class point{
+        int index;
+        char ch;
+
+        public point(int x, char ch) {
+            this.index = x;
+            this.ch = ch;
+        }
+    }
+    public int maxDistance(String str) {
+        PriorityQueue<point> queue = new PriorityQueue<>(new Comparator<point>() {
+            @Override
+            public int compare(point o1, point o2) {
+                return o1.index - o2.index;
+            }
+        });
+        HashSet<Character> hset = new HashSet<>();
+        int temp = 0;
+        int maxDistance = 0;
+        for(int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if(!hset.contains(ch)) {
+                hset.add(ch);
+                point p = new point(i, ch);
+                temp += 1;
+                queue.add(p);
+                maxDistance = Math.max(maxDistance, temp);
+            }else {
+                while(!queue.isEmpty()) {
+                    point p = queue.poll();
+                    if(p.ch == ch) {
+                        maxDistance = Math.max(maxDistance, i - p.index);
+                        temp = 0;
+                        break;
+                    }
+                }
+            }
+        }
+        maxDistance = Math.max(temp, maxDistance);
+        return maxDistance;
     }
 
 
@@ -285,7 +326,8 @@ public class minDeleteProblem {
         list.add(5);
         list.add(7);
         int[][] grid = {{1,1,1,1},{2,2,2,1},{3,3,1,1},{9,1,1,2}};
-        ds.shortestPath(grid);
+        String str = "suabcdeag";
+        System.out.println(ds.maxDistance(str));
 
     }
 }
