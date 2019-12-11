@@ -237,8 +237,40 @@ public class minDeleteProblem {
         }
     }
 
+    public int shortestPath(int[][] grid) {
+        int dist = Integer.MAX_VALUE;
+        int res = 0;
+        getShortestPath(grid, 0, 0, res, dist);
+        return dist;
+    }
 
 
+
+    public void getShortestPath(int[][] grid, int x, int y, int res, int dist) {
+        if(x > grid.length || y > grid[0].length || x < 0 || y < 0) {
+            return;
+        }
+        if(grid[x][y] == 9) {
+            dist = Math.min(res, dist);
+            return ;
+        }
+        int temp = grid[x][y];
+        grid[x][y] = 1;
+        if(grid[x + 1][y] == 1) {
+            getShortestPath(grid, x + 1, y, res + 1, dist);
+        }
+        if(grid[x][y + 1] == 1) {
+            getShortestPath(grid, x, y + 1, res + 1, dist);
+        }
+        if(grid[x - 1][y] == 1) {
+            getShortestPath(grid, x - 1, y, res + 1, dist);
+        }
+        if(grid[x][ y - 1] == 1) {
+            getShortestPath(grid, x, y - 1, res + 1, dist);
+        }
+        grid[x][y] = temp;
+
+    }
 
 
     public static void main(String[] args) {
@@ -252,8 +284,8 @@ public class minDeleteProblem {
         list.add(3);
         list.add(5);
         list.add(7);
-
-        ds.mostFrequentNumber(array);
+        int[][] grid = {{1,1,1,1},{2,2,2,1},{3,3,1,1},{9,1,1,2}};
+        ds.shortestPath(grid);
 
     }
 }
