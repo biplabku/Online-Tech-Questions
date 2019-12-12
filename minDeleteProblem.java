@@ -313,6 +313,34 @@ public class minDeleteProblem {
         return maxDistance;
     }
 
+    static class LinkNode {
+        LinkNode next;
+        int data;
+
+        public LinkNode(int val ) {
+            this.data = val;
+        }
+    }
+
+    public LinkNode swapNodePairs(LinkNode cur) {
+        LinkNode head = cur;
+        LinkNode dummy = new LinkNode(0);
+        dummy.next = cur;
+        LinkNode previous = dummy;
+        while(head != null && head.next != null) {
+            LinkNode firstNode = head;
+            LinkNode seconNode = head.next;
+            previous.next = seconNode;
+            firstNode.next = seconNode.next;
+            seconNode.next = firstNode;
+
+            previous = firstNode;
+            head = firstNode.next;
+
+        }
+        return dummy.next;
+    }
+
 
     public static void main(String[] args) {
         minDeleteProblem ds = new minDeleteProblem();
@@ -327,7 +355,13 @@ public class minDeleteProblem {
         list.add(7);
         int[][] grid = {{1,1,1,1},{2,2,2,1},{3,3,1,1},{9,1,1,2}};
         String str = "suabcdeag";
-        System.out.println(ds.maxDistance(str));
+        LinkNode t = new LinkNode(1);
+        t.next = new LinkNode(2);
+        t.next.next = new LinkNode(3);
+        t.next.next.next = new LinkNode(4);
+        t.next.next.next.next = new LinkNode(5);
+
+        System.out.println(ds.swapNodePairs(t));
 
     }
 }
