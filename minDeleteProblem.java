@@ -330,6 +330,8 @@ public class minDeleteProblem {
         while(head != null && head.next != null) {
             LinkNode firstNode = head;
             LinkNode seconNode = head.next;
+
+            // swapping
             previous.next = seconNode;
             firstNode.next = seconNode.next;
             seconNode.next = firstNode;
@@ -340,6 +342,90 @@ public class minDeleteProblem {
         }
         return dummy.next;
     }
+    // 2,4,7,5,6,8,9
+    public List<Integer> sortTheArray(int[] array) {
+        List<Integer> temp = new ArrayList<>();
+        return temp;
+    }
+
+    // 3,4,-1,1
+    // one way is to sort the array and then start from one.
+    // time complexity
+    public int firstMissingPositiveInteger(int[] nums) {
+        int res = 0;
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
+        // iterating array is O(N) and priority queue inserting takes log(N)
+        for(int i = 0; i < nums.length; i++) {
+            if(!queue.contains(nums[i])) {
+                queue.add(nums[i]);
+            }
+        }
+        int count = 1;
+        while(!queue.isEmpty()) {
+            if(queue.peek() < 1) {
+                queue.poll();
+                continue;
+            }else {
+                int val = queue.poll();
+                if(count != val ) {
+                    return count;
+                }
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+    // needs to completed/implemented
+    public int firstMissingPositviveFast(int[] array) {
+        int res =0;
+        boolean seen = false;
+        for(int i = 0; i < array.length; i++) {
+            if(array[i] < 1) {
+                array[i] = 1;
+            }else if(array[i] == 1) {
+                seen = true;
+            }
+        }
+        if(!seen) {
+            return 1;
+        }
+        // now check if there is a missing positive integer
+        return 1;
+    }
+    // shortest length in an array
+    public int shortestSumArray(int[] array) {
+        int result = Integer.MAX_VALUE;
+        return result;
+    }
+    // source = abc
+    // target = abcbc
+    // xyz, xzyxz
+    // xyzxyz
+    public int shortestWay(String source, String target) {
+        int res = 0;
+        int i = 0;
+
+        while(i < target.length()) {
+            int j = 0;
+            int previndex = i;
+            while(j < source.length() && i < target.length()) {
+                if(source.charAt(j) == target.charAt(i)) {
+                    i++;
+                    j++;
+                }else{
+                    j++;
+                }
+            }
+            if(i == previndex) {
+                return -1;
+            }
+            res += 1;
+        }
+        return res;
+    }
+
 
 
     public static void main(String[] args) {
@@ -347,7 +433,7 @@ public class minDeleteProblem {
         String[] words = new String[] {"the", "day", "is", "sunny", "the", "the", "the",
                 "sunny", "is", "is"};
         int k = 4;
-        int[] array = new int[]{1,1,2,3,3,3,5,7,1};
+        int[] array = new int[]{3,4,-1,1};
         List<Integer> list = new ArrayList<>();
         list.add(2);
         list.add(3);
@@ -360,8 +446,9 @@ public class minDeleteProblem {
         t.next.next = new LinkNode(3);
         t.next.next.next = new LinkNode(4);
         t.next.next.next.next = new LinkNode(5);
-
-        System.out.println(ds.swapNodePairs(t));
+        String source = "xyx";
+        String target = "xzyxz";
+        System.out.println(ds.shortestWay(source, target));
 
     }
 }
