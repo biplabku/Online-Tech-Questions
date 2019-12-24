@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class googlePrep {
 
@@ -171,21 +168,96 @@ public class googlePrep {
         return res;
     }
 
+    public int maxSquarePossible(int[][] array, int budget) {
+        int result = 0;
+        boolean[][] visited = new boolean[array.length][array[0].length];
+        for(int i = 0; i < array.length; i++) {
+            for(int j = 0; j < array[0].length; j++) {
+                int sum = 0;
+            }
+        }
+        return result;
+    }
+
+    public int calculateSumSize(int[][] array, int sum, int budget, int i, int j) {
+        if(sum == budget) {
+
+        }
+        for(int st = i; st < array.length; st++) {
+        }
+        return 1;
+    }
+    // time complexity -
+    // O(N) to insert the list in hashmap.
+    // Even if its running since we are removing the values from hashmap it will still be O(N)
+    public void parentChild(List<List<Integer>> list) {
+        if(list == null) {
+            return ;
+        }
+        HashMap<Integer, List<Integer>> hmap1 = new HashMap<>();
+        for(int i = 0; i < list.size(); i++) {
+            List<Integer> temp = list.get(i);
+            int key1 = temp.get(0);
+            int key2 = temp.get(1);
+            List<Integer> cur;
+            if(!hmap1.containsKey(key1) ) {
+                cur = new ArrayList<>();
+                cur.add(key2);
+                hmap1.put(key1, cur);
+            }
+        }
+        for(List<Integer> l : list){
+            int key = l.get(0);
+            int value = l.get(1);
+            List<Integer> t = new ArrayList<>();
+            t.add(value);
+            while(hmap1.containsKey(value)) {
+                List<Integer> valFromHmap = hmap1.get(value);
+                t.addAll(valFromHmap);
+                hmap1.remove(value);
+                value = valFromHmap.get(0);
+                hmap1.put(key, t);
+            }
+        }
+
+        Iterator iter = hmap1.entrySet().iterator();
+        while(iter.hasNext()) {
+            Map.Entry pair = (Map.Entry)iter.next();
+            int key = (int)pair.getKey();
+            List<Integer> value = (List<Integer>)pair.getValue();
+            System.out.println(key + ", " + value);
+        }
+    }
+
 
 
     public static void main(String[] args) {
-        String str = "aaa";
-        String[] words = new String[]{"aaaa"};
         googlePrep ms = new googlePrep();
-        String str1 = "rabbbit";
-        String str2 = "rabbit";
-        circularNode n = new circularNode(3);
-        circularNode n1 = new circularNode(4);
-        circularNode n2 = new circularNode(1);
-        n.next = n1;
-        n1.next = n2;
-        n2.next = n;
-        int[] array = new int[]{1,1,3,2,4,3,2,1,1,1,1,1,1,1};
-        System.out.println(ms.maxiPlotLand(array, 7));
+        List<Integer> list = new ArrayList<>();
+        List<List<Integer>> input = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        input.add(list);
+        list = new ArrayList<>();
+        list.add(2);
+        list.add(4);
+        input.add(list);
+        list = new ArrayList<>();
+        list.add(5);
+        list.add(3);
+        input.add(list);
+        list = new ArrayList<>();
+        list.add(0);
+        list.add(6);
+        input.add(list);
+        list = new ArrayList<>();
+        list.add(6);
+        list.add(7);
+        input.add(list);
+        list = new ArrayList<>();
+        list.add(9);
+        list.add(1);
+        input.add(list);
+        ms.parentChild(input);
     }
 }
