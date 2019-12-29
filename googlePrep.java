@@ -229,35 +229,116 @@ public class googlePrep {
         }
     }
 
+    public int maxPossibleSum(int[] array, int k) {
+        PriorityQueue<Integer> queue = new PriorityQueue<>(Collections.reverseOrder());
+        int sum1 = array[0];
+        int sum2 = array[array.length - 1];
+        for(int i = 1; i < array.length-1; i++) {
+            int val = array[i];
+            queue.add(val);
+        }
+        k = k -2;
+        while(k >= 0 && !queue.isEmpty())  {
+            int val = queue.poll();
+            sum1 += val;
+            sum2 += val;
+            k--;
+        }
+        int res = sum1 > sum2? sum1:sum2;
+        return res;
+    }
+
+    public boolean transform(String str1, String str2) {
+        return true;
+    }
+
+    public static class TreeNode {
+        int data;
+        public TreeNode left;
+        public TreeNode right;
+        public TreeNode() {
+            left = null;
+            right = null;
+        }
+
+        public TreeNode(int val) {
+            data = val;
+            left = null;
+            right = null;
+        }
+    }
+    // sorted list to BST - Height balanced tree
+    public TreeNode sortedListToBST(LinkNode node) {
+        if(node == null) {
+            return new TreeNode();
+        }
+        int[] arr = new int[]{1,2,3,4,5};
+        TreeNode root = addNode(arr, 0, arr.length - 1);
+        return root;
+    }
+
+    public int countNode(LinkNode node) {
+        int count = 0;
+        while(node != null) {
+            count++;
+            node = node.next;
+        }
+        return count;
+    }
+
+    public TreeNode linklistToBST(LinkNode node) {
+        int count = countNode(node);
+        if(count == 0) {
+            return new TreeNode();
+        }
+        TreeNode root = listToBST(node, 0, count);
+        return root;
+    }
+
+    public TreeNode listToBST(LinkNode node, int start, int end) {
+        if(node == null) {
+            return new TreeNode();
+        }
+        int mid = (start + end)/2;
+        LinkNode midNode = getLinkNode(node);
+        TreeNode root = new TreeNode(midNode.data);
+        root.left = listToBST(node, start, mid - 1);
+        root.right = listToBST(node, mid + 1, end);
+        return root;
+    }
+
+    public LinkNode getLinkNode( LinkNode node) {
+        int count = countNode(node);
+        count /= 2;
+        while(count != 0) {
+            node = node.next;
+        }
+        return node;
+    }
+
+    public TreeNode addNode(int[] array, int start, int end){
+        if(start > end) {
+            return null;
+        }
+        int mid = (end + start)/2;
+        TreeNode root = new TreeNode(array[mid]);
+        root.left = addNode(array, start, mid - 1);
+        root.right = addNode(array, mid + 1, end);
+        return root;
+    }
+    // sorted array to BST - Height balanced tree;
 
 
     public static void main(String[] args) {
         googlePrep ms = new googlePrep();
-        List<Integer> list = new ArrayList<>();
-        List<List<Integer>> input = new ArrayList<>();
-        list.add(1);
-        list.add(2);
-        input.add(list);
-        list = new ArrayList<>();
-        list.add(2);
-        list.add(4);
-        input.add(list);
-        list = new ArrayList<>();
-        list.add(5);
-        list.add(3);
-        input.add(list);
-        list = new ArrayList<>();
-        list.add(0);
-        list.add(6);
-        input.add(list);
-        list = new ArrayList<>();
-        list.add(6);
-        list.add(7);
-        input.add(list);
-        list = new ArrayList<>();
-        list.add(9);
-        list.add(1);
-        input.add(list);
-        ms.parentChild(input);
+        int[] array = new int[]{5,10,2,9,11};
+        int k = 3;
+        LinkNode l = new LinkNode(1);
+        l.next = new LinkNode(2);
+        l.next.next = new LinkNode(3);
+        l.next.next.next = new LinkNode(4);
+        l.next.next.next.next = new LinkNode(5);
+
+        System.out.println(ms.sortedListToBST(l));
     }
 }
